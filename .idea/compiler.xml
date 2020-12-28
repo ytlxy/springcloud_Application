@@ -20,7 +20,9 @@
         <module name="cloud-stream-rabbitmq-consumer8803" />
         <module name="cloud-config-center-3344" />
         <module name="cloud-consumer-hystrix-dashboar9001" />
+        <module name="cloudalibaba-provider-payment9002" />
         <module name="cloud-eureka-service7001" />
+        <module name="cloudalibaba-provider-payment9001" />
         <module name="cloud-eureka-service7002" />
         <module name="cloud-gateway-gateway9527" />
         <module name="cloud-consumer-order80" />
