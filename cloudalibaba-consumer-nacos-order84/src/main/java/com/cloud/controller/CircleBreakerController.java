@@ -1,6 +1,7 @@
 package com.cloud.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.cloud.entities.CommonResult;
 import com.cloud.entities.Payment;
 import lombok.extern.slf4j.Slf4j;
@@ -14,20 +15,30 @@ import javax.annotation.Resource;
 @RestController
 @Slf4j
 public class CircleBreakerController {
-    public static final String SERVICE_URL="http://nacos-payment-provider";
+    public static final String SERVICE_URL = "http://nacos-payment-provider";
 
     @Resource
     private RestTemplate restTemplate;
 
     @GetMapping("/consumer/fallback/{id}")
-    @SentinelResource(value = "fallback")
-    public CommonResult<Payment> fallback(@PathVariable("id")Long id){
-        CommonResult<Payment> result=restTemplate.getForObject(SERVICE_URL+"paymentSQL"+id,CommonResult.class,id);
-        if (id<=4){
+    @SentinelResource(value = "fallback", fallback = "handlerFallback", blockHandler = "blockHandler")
+    public CommonResult<Payment> fallback(@PathVariable("id") Long id) {
+        CommonResult<Payment> result = restTemplate.getForObject(SERVICE_URL + "/paymentSQL/" + id, CommonResult.class, id);
+        if (id == 4) {
             throw new IllegalArgumentException("IllegalAccessException,非法参数异常");
-        }else if (result.getData()==null){
+        } else if (result.getData() == null) {
             throw new NullPointerException("NullPointerException,该id没有记录,空指针异常");
         }
         return result;
+    }
+
+    public CommonResult<Payment> handlerFallback(@PathVariable("id") Long id, Throwable e) {
+        Payment payment = new Payment(id, "null");
+        return new CommonResult<>(444, "兜底异常handlerFallback,错误内容:" + e.getMessage(), payment);
+    }
+
+    public CommonResult<Payment> blockHandler(@PathVariable("id") Long id, BlockException blockException) {
+        Payment payment = new Payment(id, "null");
+        return new CommonResult<>(445, "blockHandler限流,无此流水:blockException" + blockException.getMessage(), payment);
     }
 }
