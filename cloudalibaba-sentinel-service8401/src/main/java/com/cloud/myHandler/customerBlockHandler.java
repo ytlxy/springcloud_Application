@@ -5,9 +5,9 @@ import com.cloud.entities.CommonResult;
 
 public class customerBlockHandler {
     public static CommonResult handlerException(BlockException e){
-        return new CommonResult(4444,"按客户自定义,global handlerException----1");
+        return new CommonResult(444,"按客户自定义,global handlerException----1");
     }
     public static CommonResult handlerException2(BlockException e){
-        return new CommonResult(4444,"按客户自定义,global handlerException----2");
+        return new CommonResult(444,"按客户自定义,global handlerException----2");
     }
 }
