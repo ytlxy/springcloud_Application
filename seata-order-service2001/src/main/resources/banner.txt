@@ -1,0 +1,9 @@
+${AnsiColor.BLUE}
+.__           .__  .__
+|  |__   ____ |  | |  |   ____
+|  |  \_/ __ \|  | |  |  /  _ \
+|   Y  \  ___/|  |_|  |_(  <_> )
+|___|  /\___  >____/____/\____/
+     \/     \/
+${AnsiColor.BRIGHT_YELLOW}
+::: test-version: (${banner-test.version}) :)     ::: spring_boot_version: (${spring-boot.version})

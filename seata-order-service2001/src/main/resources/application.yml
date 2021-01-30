@@ -28,3 +28,6 @@ logging:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+banner-test:
+  version: 1.0
